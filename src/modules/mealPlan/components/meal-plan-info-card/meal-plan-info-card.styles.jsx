@@ -21,7 +21,7 @@ export const Description = styled(Text)`
 export const TitleSection = styled(View)`
 display: flex;
 flex-direction: row;
-  justify-content: 'space-between';
+  justify-content: space-between;
 `;
 
 export const Title = styled(Text)`
@@ -33,15 +33,15 @@ export const ButtonWrapper = styled(View)`
   width: 25%;
   display: flex;
   flex-direction: row;
-  justify-content: "space-between";
+  justify-content: space-between;
 `;
 
 export const CircleButton = styled(TouchableOpacity)`
   width: 30px;
   height: 30px;
-  justify-content: "center";
-  align-items: "center";
-  text-align: "center";
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   border-radius: 100px;
   margin:0 auto;
 `;
