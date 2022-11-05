@@ -1,0 +1,1 @@
+export { default as ItemInfoCard } from './item-info-card/item-info-card.component';

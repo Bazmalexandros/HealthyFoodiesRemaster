@@ -1,0 +1,1 @@
+export { default as IngredientInfoCard } from './ingredient-info-card/ingredient-info-card.component';

@@ -1,0 +1,1 @@
+export { default as PatientInfoCard } from './patient-info-card/patient-info-card.component';

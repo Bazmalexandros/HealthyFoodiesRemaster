@@ -1,0 +1,1 @@
+export { default as AssistantInfoCard } from './assistant-info-card/assistant-info-card.component';

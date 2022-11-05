@@ -1,0 +1,13 @@
+{
+    "id":"",
+    "productId": "",
+    "userId": "3OaPSYGspaOBidPUn4vSVmxRjdS2",
+    "quantity": 1,
+    "productTitle": "Taza Electro",
+    "productImage":"https://firebasestorage.googleapis.com/v0/b/tecplus-dev.appspot.com/o/440.jpg?alt=media&token=dba12b42-1000-4133-8d15-24597f0992e5",
+    "productDescription": "Bonita taza para esos días en los que tienes de estudiar hasta las 5am y tienes examen a las 7am.",
+    "category": "Taza",
+    "categoryId": "sOdZ7exHUdF8lMUqQoTC",
+    "price": "1000",
+    "createdAt": ""
+}
