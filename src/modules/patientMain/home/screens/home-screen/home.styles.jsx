@@ -11,9 +11,8 @@ export const ItemsList = styled(FlatList)`
 `;
 
 export const ItemTouchCard = styled(TouchableOpacity)`
-  flex: 0.5;
-  height: 310px;
-  max-height: 310px;
-  margin: 4px 6px;
+  height: 100px;
+  max-height: 100px;
+  margin: 8px 6px;
 `;
 

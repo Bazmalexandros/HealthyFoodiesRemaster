@@ -34,9 +34,7 @@ export const AuthenticationContextProvider = ({ children }) => {
      */
     const onLogin = async (email, password) => {
         setIsLoading(true);
-        console.log(`email: ${email} password: ${password}`);
         const authResponse = await loginRequest(email, password);
-        console.log(authResponse);
         if (authResponse.name === 'FirebaseError') {
             const message = getFirebaseMessage(authResponse.code);
             Toast.show({

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Platform, KeyboardAvoidingView } from "react-native";
 import Toast from "react-native-toast-message";
 //Estilos para los componentes de la vista
 import { TextWrapper } from "./login.styles";
@@ -47,59 +47,63 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <AccountBackground>
-      {/* <AccountCover /> */}
-      {isLoading && <Loading />}
-      <AccountContainer>
-        <Logo />
-        <Spacer size="medium">
-          <InputLabel variant="caption">Correo Electrónico</InputLabel>
-        </Spacer>
-        <AuthInput
-          placeholder="Escribe tu correo electrónico"
-          value={state.email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(email) => setState({ ...state, email })}
-        />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        {/* <AccountCover /> */}
+        {isLoading && <Loading />}
+        <AccountContainer>
+          <Logo />
+          <Spacer size="medium">
+            <InputLabel variant="caption">Correo Electrónico</InputLabel>
+          </Spacer>
+          <AuthInput
+            placeholder="Escribe tu correo electrónico"
+            value={state.email}
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(email) => setState({ ...state, email })}
+          />
 
-        <Spacer size="large" />
+          <Spacer size="large" />
 
-        <Spacer size="medium">
-          <InputLabel variant="caption">Contraseña</InputLabel>
-        </Spacer>
-        <AuthInput
-          placeholder="Escribe tu contraseña"
-          value={state.password}
-          textContentType="password"
-          secureTextEntry
-          autoCapitalize="none"
-          secure
-          onChangeText={(password) => setState({ ...state, password })}
-        />
-        <Spacer size="large" />
+          <Spacer size="medium">
+            <InputLabel variant="caption">Contraseña</InputLabel>
+          </Spacer>
+          <AuthInput
+            placeholder="Escribe tu contraseña"
+            value={state.password}
+            textContentType="password"
+            secureTextEntry
+            autoCapitalize="none"
+            secure
+            onChangeText={(password) => setState({ ...state, password })}
+          />
+          <Spacer size="large" />
 
-        <TextWrapper>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ForgotPassword")}
-          >
-            <AuthLabel variant="caption">¿Olvidaste tu contraseña?</AuthLabel>
-          </TouchableOpacity>
-        </TextWrapper>
+          <TextWrapper>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ForgotPassword")}
+            >
+              <AuthLabel variant="caption">¿Olvidaste tu contraseña?</AuthLabel>
+            </TouchableOpacity>
+          </TextWrapper>
 
-        <Spacer size="large" />
+          <Spacer size="large" />
 
-        {!isLoading && (
-          <AuthButton
-            icon="lock-open-outline"
-            mode="contained"
-            textColor="black"
-            onPress={() => onLoginPress()}
-          >
-            Iniciar Sesión
-          </AuthButton>
-        )}
-      </AccountContainer>
+          {!isLoading && (
+            <AuthButton
+              icon="lock-open-outline"
+              mode="contained"
+              textColor="black"
+              onPress={() => onLoginPress()}
+            >
+              Iniciar Sesión
+            </AuthButton>
+          )}
+        </AccountContainer>
+      </KeyboardAvoidingView>
     </AccountBackground>
   );
 };

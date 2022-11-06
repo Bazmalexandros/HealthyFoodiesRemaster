@@ -80,21 +80,14 @@ export const logout = async () => {
     await signOut(auth);
 };
 
-/** 
- * Con esta información buscamos en la colección de "users" el usuario del cual necesitamos la información
- * @param {string} id Id del usuario
-*/
+//create a method that gets the user by id
 export const getUserInfo = async (id) => {
-    try {
-        console.log("hola",id);
-        const patientsCollection = collection(db, "users");
-        const patientRef = doc(patientsCollection, id);
-        const docValue = await getDoc(patientRef);
-        const data = docValue.data();
-        return data;
-    } catch (e) {
-        console.log(e);
-        return e;
+    const userRef = doc(db, "users", id);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+        return userSnap.data();
+    } else {
+        console.log("No such document!");
     }
 }
 
