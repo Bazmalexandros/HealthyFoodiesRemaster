@@ -114,8 +114,8 @@ const AssistantFormScreen = () => {
     let lastEmail;
 
     if (state.id) {
-      lastPassword = route.params.patient.password;
-      lastEmail = route.params.patient.email;
+      lastPassword = route.params.assistant.password;
+      lastEmail = route.params.assistant.email;
     }
 
     setIsLoading(true);
