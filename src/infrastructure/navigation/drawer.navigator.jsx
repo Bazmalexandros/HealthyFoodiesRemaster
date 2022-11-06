@@ -48,94 +48,93 @@ export const DrawerNavigator = () => {
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
-      {role === "1" ||
-        (role === "2" ? (
-          <Fragment>
-            <Drawer.Screen
-              name="main"
-              component={MainNavigator}
-              options={{
-                title: "Inicio",
-                drawerIcon: ({ color }) => (
-                  <MaterialIcons name="dashboard" size={22} color={color} />
-                ),
-              }}
-            />
-
-            <Drawer.Screen
-              name="ingredient"
-              component={IngredientNavigator}
-              options={{
-                title: "Ingredientes",
-                drawerIcon: ({ color }) => (
-                  <FontAwesome5 name="pepper-hot" size={22} color={color} />
-                ),
-              }}
-            />
-
-            <Drawer.Screen
-              name="recipe"
-              component={RecipeNavigator}
-              options={{
-                title: "Recetas",
-                drawerIcon: ({ color }) => (
-                  <Foundation name="book-bookmark" size={22} color={color} />
-                ),
-              }}
-            />
-
-            <Drawer.Screen
-              name="mealPlan"
-              component={MealPlanNavigator}
-              options={{
-                title: "Planes de comidas",
-                drawerIcon: ({ color }) => (
-                  <MaterialCommunityIcons
-                    name="food-apple"
-                    size={22}
-                    color={color}
-                  />
-                ),
-              }}
-            />
-
-            {role === "1" && (
-              <Fragment>
-                <Drawer.Screen
-                  name="patient"
-                  component={PatientNavigator}
-                  options={{
-                    title: "Pacientes",
-                    drawerIcon: ({ color }) => (
-                      <FontAwesome name="user" size={22} color={color} />
-                    ),
-                  }}
-                />
-                <Drawer.Screen
-                  name="assistant"
-                  component={AssistantNavigator}
-                  options={{
-                    title: "Asistentes",
-                    drawerIcon: ({ color }) => (
-                      <FontAwesome5 name="user-cog" size={22} color={color} />
-                    ),
-                  }}
-                />
-              </Fragment>
-            )}
-          </Fragment>
-        ) : (
+      {role === "3" ? (
+        <Drawer.Screen
+          name="patientMain"
+          component={PatientMainNavigator}
+          options={{
+            title: "Paciente",
+            drawerIcon: ({ color }) => (
+              <FontAwesome5 name="user-cog" size={22} color={color} />
+            ),
+          }}
+        />
+      ) : (
+        <Fragment>
           <Drawer.Screen
-            name="patientMain"
-            component={PatientMainNavigator}
+            name="main"
+            component={MainNavigator}
             options={{
-              title: "Paciente",
+              title: "Inicio",
               drawerIcon: ({ color }) => (
-                <FontAwesome5 name="user-cog" size={22} color={color} />
+                <MaterialIcons name="dashboard" size={22} color={color} />
               ),
             }}
           />
-        ))}
+
+          <Drawer.Screen
+            name="ingredient"
+            component={IngredientNavigator}
+            options={{
+              title: "Ingredientes",
+              drawerIcon: ({ color }) => (
+                <FontAwesome5 name="pepper-hot" size={22} color={color} />
+              ),
+            }}
+          />
+
+          <Drawer.Screen
+            name="recipe"
+            component={RecipeNavigator}
+            options={{
+              title: "Recetas",
+              drawerIcon: ({ color }) => (
+                <Foundation name="book-bookmark" size={22} color={color} />
+              ),
+            }}
+          />
+
+          <Drawer.Screen
+            name="mealPlan"
+            component={MealPlanNavigator}
+            options={{
+              title: "Planes de comidas",
+              drawerIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="food-apple"
+                  size={22}
+                  color={color}
+                />
+              ),
+            }}
+          />
+
+          {role === "1" && (
+            <Fragment>
+              <Drawer.Screen
+                name="patient"
+                component={PatientNavigator}
+                options={{
+                  title: "Pacientes",
+                  drawerIcon: ({ color }) => (
+                    <FontAwesome name="user" size={22} color={color} />
+                  ),
+                }}
+              />
+              <Drawer.Screen
+                name="assistant"
+                component={AssistantNavigator}
+                options={{
+                  title: "Asistentes",
+                  drawerIcon: ({ color }) => (
+                    <FontAwesome5 name="user-cog" size={22} color={color} />
+                  ),
+                }}
+              />
+            </Fragment>
+          )}
+        </Fragment>
+      )}
     </Drawer.Navigator>
   );
 };
