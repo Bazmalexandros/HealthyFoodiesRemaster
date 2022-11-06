@@ -1,11 +1,37 @@
+import { useEffect, useState } from 'react';
 import { ScrollView, Image, Text } from "react-native";
 import { List } from "react-native-paper";
-import { SafeArea } from "../../../../components";
+import { SafeArea, Loading } from "../../../../components";
 import { colors } from "../../../../infrastructure/theme/colors";
 import banner from "../../../../../assets/detail.jpg";
+import { getRecipeById } from '../../../../services/recipes/recipes.service';
 
 const RecipeDetailScreen = ({ route }) => {
-  const { recipe } = route.params;
+  const [isLoading, setIsLoading] = useState(false);
+  const [recipe, setRecipe] = useState(route.params.recipe);
+
+  const getMealDetail = async () => {
+    setIsLoading(true);
+    const response = await getRecipeById(recipe.id);
+    if (response) {
+      setRecipe(response);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getMealDetail();
+  }, []);
+
+
+ if (isLoading) {
+   return (
+     <SafeArea>
+       <Loading />
+     </SafeArea>
+   );
+ }
+
   const { name, preparation, ingredients } = recipe;
   return (
     <SafeArea>
@@ -25,17 +51,20 @@ const RecipeDetailScreen = ({ route }) => {
           expanded={true}
           right={(props) => null}
         >
-          {ingredients.map((ingredient, index) => (
-            <List.Item
-              key={index}
-              title={ingredient.name}
-              description={`Calorías: ${ingredient.calories}cal   Fat: ${ingredient.fat}`}
-              titleStyle={{ color: colors.brand.hf }}
-              left={(props) => (
-                <List.Icon {...props} color={colors.brand.hf} icon="circle" />
-              )}
-            />
-          ))}
+          {ingredients.map((ingredient, index) => {
+            if (JSON.stringify(ingredient) === '{}') return;
+            return (
+              <List.Item
+                key={index}
+                title={ingredient.name}
+                description={`Calorías: ${ingredient.calories}cal   Fat: ${ingredient.fat}`}
+                titleStyle={{ color: colors.brand.hf }}
+                left={(props) => (
+                  <List.Icon {...props} color={colors.brand.hf} icon="circle" />
+                )}
+              />
+            );
+          })}
         </List.Accordion>
 
         <List.Accordion
