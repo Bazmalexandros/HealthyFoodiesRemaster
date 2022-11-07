@@ -14,7 +14,10 @@ import {
     updateEmail,
     updatePassword,
     signInWithEmailAndPassword,
+    deleteUser,
+    signOut
 } from "firebase/auth";
+import { getUserInfo } from '../authentication/authentication.service.js';
 
 /**
  * Función para recuperar todas las ingredientes de la base de datos
@@ -42,7 +45,7 @@ export const assistantsRequest = async () => {
  * @param {Object} data Datos del ingrediente
  * @return {Bool} Retorna un verdadero si se agrego correctamente
  */
-export const createAssistant = async (data, password) => {
+export const createAssistant = async (data, password, userId) => {
     try {
         const assistantAuth = await createUserWithEmailAndPassword(auth, data.email, password);
         await updateProfile(assistantAuth.user, {
@@ -56,7 +59,11 @@ export const createAssistant = async (data, password) => {
         data.id = assistantAuth.user.uid;
 
         await setDoc(documentRef, data);
+        await signOut(auth);
 
+        const user = await getUserInfo(userId);
+
+         await signInWithEmailAndPassword(auth, user.email, user.password);
         return true;
     } catch (error) {
         console.log(error);
@@ -69,7 +76,7 @@ export const createAssistant = async (data, password) => {
  * @param {Object} data Datos del paciente
  * @return {Bool} Retorna un verdadero si se agrego correctamente
  */
-export const updateAssistant = async (data, password, lastEmail, lastPassword) => {
+export const updateAssistant = async (data, password, lastEmail, lastPassword, userId) => {
     try {
         const assistantAuth = await signInWithEmailAndPassword(auth, lastEmail, lastPassword);
         await updateEmail(assistantAuth.user, data.email);
@@ -82,6 +89,10 @@ export const updateAssistant = async (data, password, lastEmail, lastPassword) =
         const assistantsCollection = collection(db, "users");
         const assistantRef = doc(assistantsCollection, data.id);
         await updateDoc(assistantRef, data);
+        await signOut(auth);
+        
+        const user = await getUserInfo(userId);
+        await signInWithEmailAndPassword(auth, user.email, user.password);
         return true;
     } catch (error) {
         console.log(error);
@@ -95,12 +106,15 @@ export const updateAssistant = async (data, password, lastEmail, lastPassword) =
  * @param {string} id Id del paciente
  * @return {Bool} Retorna un verdadero si se actualizó correctamente
  */
-export const deleteAssistant = async (id, email, password) => {
+export const deleteAssistant = async (id, email, password, userId) => {
     try {
         const docRef = doc(db, "users", id);
         await deleteDoc(docRef);
         const assistantAuth = await signInWithEmailAndPassword(auth, email, password);
         await deleteUser(assistantAuth.user);
+        await signOut(auth);
+        const user = await getUserInfo(userId);
+        await signInWithEmailAndPassword(auth, user.email, user.password);
         return true;
     } catch (error) {
         console.log(error);

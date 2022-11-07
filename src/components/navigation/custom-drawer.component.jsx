@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { View, ImageBackground, Image, TouchableOpacity } from "react-native";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { DrawerItemList } from "@react-navigation/drawer";
 
@@ -38,7 +39,7 @@ const FooterWrapper = styled.View.attrs({
 const ImageLogo = styled(Image).attrs({
   source: logo,
   resizeMode: "cover",
-  })`
+})`
   width: 130px;
   height: 100px;
   margin-bottom: 30px;
@@ -49,6 +50,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export const CustomDrawer = (props) => {
   const { user, onLogout } = useContext(AuthenticationContext);
+  const navigation = useNavigation();
 
   return (
     <DrawerView>
@@ -67,7 +69,21 @@ export const CustomDrawer = (props) => {
         <DrawerItemList {...props} />
       </ItemsView>
       <FooterWrapper>
-        <TouchableOpacity onPress={onLogout} style={{ paddingVertical: 15 }}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.dispatch(DrawerActions.closeDrawer());
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Inicio", params: { refresh: true } }],
+            });
+            onLogout();
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Inicio"}],
+            });
+          }}
+          style={{ paddingVertical: 15 }}
+        >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons style={{ marginRight: 15 }} name="log-out" size={22} />
             <Text variant="caption">Cerrar Sesión</Text>

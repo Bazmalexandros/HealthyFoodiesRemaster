@@ -35,17 +35,14 @@ import {
 import { mealPlansRequest } from "../../../../services/mealPlan/mealPlan.service";
 import { getFirebaseMessage } from "../../../../utils/firebase.utils";
 import { colors } from "../../../../infrastructure/theme/colors";
-import { labelsTransform } from "../../../../utils/labels"; 
+import { labelsTransform } from "../../../../utils/labels";
 
 const PatientMealFormScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
-  const initState = {
-    userId: "",
-    mealId: "",
-  };
-
-  const [state, setState] = useState(initState);
+  const [userId, setUserId] = useState("");
+  const [mealId, setMealId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [meals, setMeals] = useState([]);
@@ -53,8 +50,8 @@ const PatientMealFormScreen = () => {
   const onGetData = async () => {
     try {
       setIsLoading(true);
-        const user = await patientsRequest();
-        const userTransform = labelsTransform(user, "id","name");
+      const user = await patientsRequest();
+      const userTransform = labelsTransform(user, "id", "name");
       const meal = await mealPlansRequest();
       const mealTransform = labelsTransform(meal, "id", "name");
       setUsers(userTransform);
@@ -75,11 +72,8 @@ const PatientMealFormScreen = () => {
   }, []);
 
   const clearState = () => {
-    setState(initState);
-    state.userId = "";
-    state.mealId = "";
-
-    setState({ userId: "", mealId: "" });
+    setUserId("");
+    setMealId("");
   };
 
   /**
@@ -94,9 +88,7 @@ const PatientMealFormScreen = () => {
       topOffset: 100,
     };
 
-    const validateState = keysAreEmpty(state);
-
-    if (!validateState)
+    if (userId === "" || mealId === "")
       toastParams.text2 = "Por favor no dejes ningún campo vacío";
 
     if (toastParams.text2 !== "") {
@@ -105,7 +97,7 @@ const PatientMealFormScreen = () => {
     }
 
     setIsLoading(true);
-    const response = await updateMealPlanId(state.userId, state.mealId);
+    const response = await updateMealPlanId(userId, mealId);
     let result = true;
 
     if (typeof response !== "boolean") {
@@ -123,8 +115,11 @@ const PatientMealFormScreen = () => {
     });
 
     if (result) {
-      navigation.navigate("Pacientes", { refresh: true });
       clearState();
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Pacientes", params: { refresh: true } }],
+      });
     }
   };
 
@@ -142,9 +137,7 @@ const PatientMealFormScreen = () => {
               <Spacer size="medium" />
               <Card elevation={2} mode="elevated">
                 <SelectList
-                  setSelected={(value) => {
-                    setState({ ...state, userId: value });
-                  }}
+                  setSelected={setUserId}
                   data={users}
                   placeholder="Selecciona un paciente"
                   searchPlaceholder="Buscar paciente"
@@ -161,9 +154,7 @@ const PatientMealFormScreen = () => {
               <Spacer size="medium" />
               <Card elevation={2} mode="elevated">
                 <SelectList
-                  setSelected={(value) => {
-                    setState({ ...state, mealId: value });
-                  }}
+                  setSelected={setMealId}
                   data={meals}
                   placeholder="Selecciona un plan"
                   searchPlaceholder="Buscar plan"
@@ -189,11 +180,7 @@ const PatientMealFormScreen = () => {
 
                 <Spacer size="medium">
                   <AuthLabelContainer>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setState(initState);
-                      }}
-                    >
+                    <TouchableOpacity onPress={() => clearState}>
                       <AuthLabel variant="bold">Limpiar</AuthLabel>
                     </TouchableOpacity>
                   </AuthLabelContainer>

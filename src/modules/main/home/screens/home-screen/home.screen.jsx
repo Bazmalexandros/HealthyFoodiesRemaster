@@ -33,36 +33,40 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loading />}
-      <ItemsTitle variant="label">
-        Bienvenido de vuelta {role === "2" ? "Asistente" : "Nutriólogo"}. ¿Qué
-        deseas hacer hoy?
-      </ItemsTitle>
-      <ItemsList
-        contentContainerStyle={{ paddingBottom: 30 }}
-        data={items}
-        numColumns={2}
-        renderItem={({ item }) => {
-          if (
-            role === "2" &&
-            (item.title === "Pacientes" || item.title === "Asistentes")
-          )
-            return;
-          return (
-            <ItemTouchCard
-              onPress={() => {
-                navigation.navigate(item.titleEn, item.route);
-              }}
-            >
-              <Spacer position={"bottom"} size={"small"}>
-                <FadeInView>
-                  <ItemInfoCard item={item} />
-                </FadeInView>
-              </Spacer>
-            </ItemTouchCard>
-          );
-        }}
-        keyExtractor={(item) => item.id}
-      />
+      {role !== "3" && (
+        <>
+          <ItemsTitle variant="label">
+            Bienvenido de vuelta {role === "2" ? "Asistente" : "Nutriólogo"}.
+            ¿Qué deseas hacer hoy?
+          </ItemsTitle>
+          <ItemsList
+            contentContainerStyle={{ paddingBottom: 30 }}
+            data={items}
+            numColumns={2}
+            renderItem={({ item }) => {
+              if (
+                role === "2" &&
+                (item.title === "Pacientes" || item.title === "Asistentes")
+              )
+                return;
+              return (
+                <ItemTouchCard
+                  onPress={() => {
+                    navigation.navigate(item.titleEn, item.route);
+                  }}
+                >
+                  <Spacer position={"bottom"} size={"small"}>
+                    <FadeInView>
+                      <ItemInfoCard item={item} />
+                    </FadeInView>
+                  </Spacer>
+                </ItemTouchCard>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        </>
+      )}
     </SafeArea>
   );
 };

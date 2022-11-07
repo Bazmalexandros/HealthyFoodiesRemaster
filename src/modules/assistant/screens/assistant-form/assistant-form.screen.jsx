@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   ScrollView,
   TouchableOpacity,
@@ -26,10 +26,12 @@ import {
 } from "../../../../services/assistants/assistants.service";
 import { getFirebaseMessage } from "../../../../utils/firebase.utils";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { AuthenticationContext } from "../../../../services";
 
 const AssistantFormScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const { user } = useContext(AuthenticationContext);
 
   const initState = {
     id: "",
@@ -74,6 +76,7 @@ const AssistantFormScreen = () => {
       lastPassword: "",
       phone: "",
     });
+    route.params = undefined;
     route.params = undefined;
   };
 
@@ -125,9 +128,10 @@ const AssistantFormScreen = () => {
             trimmedState,
             state.password,
             lastEmail,
-            lastPassword
+            lastPassword,
+            user.uid
           )
-        : await createAssistant(trimmedState, state.password);
+        : await createAssistant(trimmedState, state.password, user.uid);
     let result = true;
 
     if (typeof response !== "boolean") {

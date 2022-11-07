@@ -25,7 +25,6 @@ import {
 */
 export const loginRequest = async (email, password) => {
     try {
-        console.log(`email: ${email} password: ${password}`);
         const userAuth = await signInWithEmailAndPassword(auth, email, password);
         return userAuth;
     } catch (error) {

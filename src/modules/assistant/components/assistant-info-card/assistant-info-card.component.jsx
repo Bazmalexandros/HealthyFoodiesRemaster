@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -11,14 +11,14 @@ import {
   ButtonWrapper,
   TitleSection,
   CircleButton,
- 
 } from "./assistant-info-card.styles";
 import { deleteAssistant } from "../../../../services/assistants/assistants.service";
+import { AuthenticationContext } from "../../../../services";
 
 const AssistantInfoCard = ({ assistant }) => {
   const navigation = useNavigation();
-  const { id, name, email, password} = assistant;
-
+  const { id, name, email, password } = assistant;
+  const { user } = useContext(AuthenticationContext);
 
   const createTwoButtonAlert = () =>
     Alert.alert("¿Estás seguro?", `Se eliminará el registro ${name}`, [
@@ -30,7 +30,7 @@ const AssistantInfoCard = ({ assistant }) => {
       {
         text: "Continuar",
         onPress: async () => {
-          const response = await deleteAssistant(id, email, password);
+          const response = await deleteAssistant(id, email, password, user.uid);
           if (response) {
             Toast.show({
               type: "success",
@@ -39,10 +39,7 @@ const AssistantInfoCard = ({ assistant }) => {
               topOffset: 100,
             });
 
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Asistentes" }],
-            });
+            navigation.navigate("Asistentes", { refresh: true });
           }
         },
       },

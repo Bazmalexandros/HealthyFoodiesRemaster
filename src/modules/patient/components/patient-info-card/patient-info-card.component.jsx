@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -15,10 +15,13 @@ import {
 } from "./patient-info-card.styles";
 import { deletePatient } from "../../../../services/patients/patients.service";
 import { getMealPlanById } from "../../../../services/mealPlan/mealPlan.service";
+import { AuthenticationContext } from "../../../../services";
+
 const PatientInfoCard = ({ patient }) => {
   const navigation = useNavigation();
   const { id, name, mealPlanId, email, password } = patient;
   const [mealPlan, setMealPlan] = useState({});
+  const { user } = useContext(AuthenticationContext);
 
   const onGetMealPlan = async () => {
     try {
@@ -43,7 +46,7 @@ const PatientInfoCard = ({ patient }) => {
       {
         text: "Continuar",
         onPress: async () => {
-          const response = await deletePatient(id, email, password);
+          const response = await deletePatient(id, email, password, user.uid);
           if (response) {
             Toast.show({
               type: "success",
@@ -52,10 +55,7 @@ const PatientInfoCard = ({ patient }) => {
               topOffset: 100,
             });
 
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Pacientes" }],
-            });
+            navigation.navigate("Pacientes", { refresh: true });
           }
         },
       },

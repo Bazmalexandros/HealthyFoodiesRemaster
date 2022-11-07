@@ -14,8 +14,10 @@ import {
     updateEmail,
     updatePassword,
     signInWithEmailAndPassword,
-    deleteUser
+    deleteUser,
+    signOut
 } from "firebase/auth";
+import { getUserInfo } from '../authentication/authentication.service.js';
 
 /**
  * Función para recuperar todas las ingredientes de la base de datos
@@ -44,7 +46,7 @@ export const patientsRequest = async () => {
  * @param {Object} data Datos del ingrediente
  * @return {Bool} Retorna un verdadero si se agrego correctamente
  */
-export const createPatient = async (data, password) => {
+export const createPatient = async (data, password, userId) => {
     try {
         const patientAuth = await createUserWithEmailAndPassword(auth, data.email, password);
         await updateProfile(patientAuth.user, {
@@ -59,7 +61,11 @@ export const createPatient = async (data, password) => {
         data.id = patientAuth.user.uid;
 
         await setDoc(documentRef, data);
+        await signOut(auth);
 
+        const user = await getUserInfo(userId);
+
+        await signInWithEmailAndPassword(auth, user.email, user.password);
         return true;
     } catch (error) {
         console.log(error);
@@ -72,7 +78,7 @@ export const createPatient = async (data, password) => {
  * @param {Object} data Datos del paciente
  * @return {Bool} Retorna un verdadero si se agrego correctamente
  */
-export const updatePatient = async (data, password, lastEmail,lastPassword) => {
+export const updatePatient = async (data, password, lastEmail, lastPassword, userId) => {
     try {
         const patientAuth = await signInWithEmailAndPassword(auth, lastEmail, lastPassword);
         await updateEmail(patientAuth.user, data.email);
@@ -85,6 +91,11 @@ export const updatePatient = async (data, password, lastEmail,lastPassword) => {
         const patientsCollection = collection(db, "users");
         const patientRef = doc(patientsCollection, data.id);
         await updateDoc(patientRef, data);
+        await signOut(auth);
+
+        const user = await getUserInfo(userId);
+
+        await signInWithEmailAndPassword(auth, user.email, user.password);
         return true;
     } catch (error) {
         console.log(error);
@@ -110,12 +121,17 @@ export const updateMealPlanId = async (userId, mealPlanId) => {
  * @param {string} id Id del paciente
  * @return {Bool} Retorna un verdadero si se actualizó correctamente
  */
-export const deletePatient = async (id, email, password) => {
+export const deletePatient = async (id, email, password, userId) => {
     try {
         const docRef = doc(db, "users", id);
         await deleteDoc(docRef);
         const patientAuth = await signInWithEmailAndPassword(auth, email, password);
         await deleteUser(patientAuth.user);
+        await signOut(auth);
+
+        const user = await getUserInfo(userId);
+
+        await signInWithEmailAndPassword(auth, user.email, user.password);
         return true;
     } catch (error) {
         console.log(error);

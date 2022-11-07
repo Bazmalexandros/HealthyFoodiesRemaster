@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   ScrollView,
   TouchableOpacity,
@@ -26,10 +26,12 @@ import {
 } from "../../../../services/patients/patients.service";
 import { getFirebaseMessage } from "../../../../utils/firebase.utils";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { AuthenticationContext } from "../../../../services";
 
 const PatientFormScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const { user } = useContext(AuthenticationContext);
 
   const initState = {
     id: "",
@@ -145,9 +147,10 @@ const PatientFormScreen = () => {
             trimmedState,
             state.password,
             lastEmail,
-            lastPassword
+            lastPassword,
+            user.uid
           )
-        : await createPatient(trimmedState, state.password);
+        : await createPatient(trimmedState, state.password, user.uid);
     let result = true;
 
     if (typeof response !== "boolean") {
