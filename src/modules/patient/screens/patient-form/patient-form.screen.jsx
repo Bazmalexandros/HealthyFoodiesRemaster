@@ -170,7 +170,7 @@ const PatientFormScreen = () => {
     });
 
     if (result) {
-      navigation.navigate("Pacientes", { refresh: true });
+     navigation.navigate("Pacientes", { refresh: true });
       clearState();
     }
   };

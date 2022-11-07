@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Dimensions, ScrollView, View } from "react-native";
+import { Dimensions } from "react-native";
 import {
   SafeArea,
   Loading,
