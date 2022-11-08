@@ -40,6 +40,7 @@ const HomeScreen = ({ navigation }) => {
         setIsLoading(true);
         const data = await getUserInfo(user.uid);
         const mealPlan = await getMealPlanById(data.mealPlanId);
+        console.log("Al menos llegó hasta aquí");
         const mealPlanDetail = await getMealDetails(mealPlan);
 
         setUserDetails(data);
@@ -47,9 +48,10 @@ const HomeScreen = ({ navigation }) => {
         const d = new Date(Date.now());
         const day = d.getDay();
         setDayValue(day);
+        console.log(mealPlanDetail);
         switch (day) {
           case 1:
-            setMealPlanGlobal(mealPlanDetail.moday);
+            setMealPlanGlobal(mealPlanDetail.monday);
             break;
           case 2:
             setMealPlanGlobal(mealPlanDetail.tuesday);
@@ -94,6 +96,7 @@ const HomeScreen = ({ navigation }) => {
         data={mealPlanGlobal}
         numColumns={1}
         renderItem={({ item }) => {
+          if (item.hasOwnProperty("line")) return;
           return (
             <ItemTouchCard
               onPress={() => {

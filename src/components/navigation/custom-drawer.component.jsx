@@ -72,15 +72,7 @@ export const CustomDrawer = (props) => {
         <TouchableOpacity
           onPress={() => {
             navigation.dispatch(DrawerActions.closeDrawer());
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Inicio", params: { refresh: true } }],
-            });
             onLogout();
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Inicio"}],
-            });
           }}
           style={{ paddingVertical: 15 }}
         >
