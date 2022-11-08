@@ -38,8 +38,14 @@ const AssistantInfoCard = ({ assistant }) => {
               text2: "Asistente eliminado correctamente",
               topOffset: 100,
             });
+            navigation.navigate("assistant", {
+              screen: "Agregar/Editar",
+            });
 
-            navigation.navigate("Asistentes", { refresh: true });
+            navigation.reset({
+              index: 1,
+              routes: [{ name: "Asistentes", params: { refresh: true } }],
+            });
           }
         },
       },

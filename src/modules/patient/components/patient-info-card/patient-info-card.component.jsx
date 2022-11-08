@@ -55,7 +55,14 @@ const PatientInfoCard = ({ patient }) => {
               topOffset: 100,
             });
 
-            navigation.navigate("Pacientes", { refresh: true });
+            navigation.navigate("patient", {
+              screen: "Agregar/Editar",
+            });
+
+            navigation.reset({
+              index: 1,
+              routes: [{ name: "Pacientes", params: { refresh: true } }],
+            });
           }
         },
       },
