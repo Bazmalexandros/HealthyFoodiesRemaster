@@ -36,6 +36,10 @@ const MealPlanInfoCard = ({ meal }) => {
               topOffset: 100,
             });
 
+            navigation.navigate("mealPlan", {
+              screen: "Agregar/Editar",
+            });
+
             navigation.reset({
               index: 0,
               routes: [{ name: "Comidas" }],

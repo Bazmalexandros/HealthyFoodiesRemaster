@@ -37,6 +37,10 @@ const IngredientInfoCard = ({ ingredient }) => {
               topOffset: 100,
             });
 
+            navigation.navigate("ingredient", {
+              screen: "Agregar/Editar",
+            });
+
             navigation.reset({
               index: 0,
               routes: [{ name: "Ingredientes" }],

@@ -31,11 +31,10 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <>
-      {role !== "3" && (
-        <SafeArea>
-          {isLoading && <Loading />}
-
+    <SafeArea>
+      {isLoading && <Loading />}
+      {role !== "3" ? (
+        <>
           <ItemsTitle variant="label">
             Bienvenido de vuelta {role === "2" ? "Asistente" : "Nutriólogo"}.
             ¿Qué deseas hacer hoy?
@@ -66,9 +65,9 @@ const HomeScreen = ({ navigation }) => {
             }}
             keyExtractor={(item) => item.id}
           />
-        </SafeArea>
-      )}
-    </>
+        </>
+      ) : null}
+    </SafeArea>
   );
 };
 

@@ -37,6 +37,10 @@ const RecipeInfoCard = ({ recipe }) => {
               topOffset: 100,
             });
 
+            navigation.navigate("recipe", {
+              screen: "Agregar/Editar",
+            });
+
             navigation.reset({
               index: 0,
               routes: [{ name: "Recetas" }],
@@ -54,7 +58,6 @@ const RecipeInfoCard = ({ recipe }) => {
           <ButtonWrapper>
             <CircleButton
               onPress={() => {
-                        
                 navigation.navigate("recipe", {
                   screen: "Agregar/Editar",
                   params: {
@@ -62,10 +65,10 @@ const RecipeInfoCard = ({ recipe }) => {
                   },
                 });
 
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "Agregar/Editar" }],
-                  });
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Agregar/Editar" }],
+                });
               }}
             >
               <Entypo

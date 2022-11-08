@@ -51,6 +51,7 @@ local.properties
 *.iml
 *.hprof
 firebase.js
+firebaseNew.js
 
 # node.js
 #
