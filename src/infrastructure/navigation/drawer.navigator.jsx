@@ -35,6 +35,8 @@ export const DrawerNavigator = () => {
     retrieveUserData();
   }, []);
 
+  if (role === "") return null;
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -48,6 +50,7 @@ export const DrawerNavigator = () => {
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
+
       {role === "3" ? (
         <Drawer.Screen
           name="patientMain"

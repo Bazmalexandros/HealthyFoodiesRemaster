@@ -40,7 +40,6 @@ const HomeScreen = ({ navigation }) => {
         setIsLoading(true);
         const data = await getUserInfo(user.uid);
         const mealPlan = await getMealPlanById(data.mealPlanId);
-        console.log("Al menos llegó hasta aquí");
         const mealPlanDetail = await getMealDetails(mealPlan);
 
         setUserDetails(data);

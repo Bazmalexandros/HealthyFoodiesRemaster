@@ -30,6 +30,8 @@ const HomeScreen = ({ navigation }) => {
     retrieveUserData();
   }, []);
 
+    if (role === "") return null;
+
   return (
     <SafeArea>
       {isLoading && <Loading />}
