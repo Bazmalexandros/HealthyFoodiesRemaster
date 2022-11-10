@@ -114,7 +114,10 @@ const IngredientFormScreen = () => {
     });
 
     if (result) {
-      navigation.navigate("Ingredientes", { refresh: true });
+      navigation.reset({
+        index: 1,
+        routes: [{ name: "Ingredientes", params: { refresh: true } }],
+      });
       clearState();
     }
   };
