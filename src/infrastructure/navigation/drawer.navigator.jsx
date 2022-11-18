@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect, Fragment } from "react";
+import {View, Text} from 'react-native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 //Stacks para crear las vistas de cada módulo
 import { MainNavigator } from "./main-navigation";
@@ -50,7 +51,6 @@ export const DrawerNavigator = () => {
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
-
       {role === "3" ? (
         <Drawer.Screen
           name="patientMain"
@@ -116,7 +116,11 @@ export const DrawerNavigator = () => {
             <Fragment>
               <Drawer.Screen
                 name="patient"
-                component={PatientNavigator}
+                component={()=>
+                  <View>
+                    <Text>Interfaz en construcción</Text>
+                  </View>
+                }
                 options={{
                   title: "Pacientes",
                   drawerIcon: ({ color }) => (
