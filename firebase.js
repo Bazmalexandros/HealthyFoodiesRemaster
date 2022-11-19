@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { API_KEY, API_ID } from "@env";
 
-/** Configuración para las crendeciales de firebase */
+// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: API_KEY,
-    authDomain: "healthyfoodiestec.firebaseapp.com",
-    projectId: "healthyfoodiestec",
-    storageBucket: "healthyfoodiestec.appspot.com",
-    messagingSenderId: "367804159258",
+    authDomain: "healthyfoodies-1d8e8.firebaseapp.com",
+    projectId: "healthyfoodies-1d8e8",
+    storageBucket: "healthyfoodies-1d8e8.appspot.com",
+    messagingSenderId: "335664167814",
     appId: API_ID
 };
 
