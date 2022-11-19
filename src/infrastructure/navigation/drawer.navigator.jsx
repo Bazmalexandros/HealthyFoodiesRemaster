@@ -116,11 +116,7 @@ export const DrawerNavigator = () => {
             <Fragment>
               <Drawer.Screen
                 name="patient"
-                component={()=>
-                  <View>
-                    <Text>Interfaz en construcción</Text>
-                  </View>
-                }
+                component={PatientNavigator}
                 options={{
                   title: "Pacientes",
                   drawerIcon: ({ color }) => (

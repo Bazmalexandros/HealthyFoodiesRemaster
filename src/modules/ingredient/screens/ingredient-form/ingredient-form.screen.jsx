@@ -41,6 +41,7 @@ const IngredientFormScreen = () => {
     id: "",
     name: "",
     calories: "",
+    quantity:"",
     fat: "",
   };
 
@@ -60,9 +61,10 @@ const IngredientFormScreen = () => {
     setState(initState);
     state.id = "";
     state.calories = "";
+    state.quantity = "";
     state.fat = "";
     state.name = "";
-    setState({ id: "", name: "", calories: "", fat: "" });
+    setState({ id: "", name: "", calories: "", quantity: "", fat: "" });
     route.params = undefined;
   };
 
@@ -158,6 +160,16 @@ const IngredientFormScreen = () => {
                 Platform.OS === "ios" ? "numbers-and-punctuation" : "numeric"
               }
               onChangeText={handleChangeText("calories")}
+            />
+
+            <Spacer size="large" />
+
+            <CustomInput
+              size="medium"
+              label="Cantidad(gramos, litros, tasas, etc.)"
+              value={state.quantity}
+              keyboardType="default"
+              onChangeText={handleChangeText("quantity")}
             />
 
             <Spacer size="large" />

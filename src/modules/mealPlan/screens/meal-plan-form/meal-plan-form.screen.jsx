@@ -81,6 +81,15 @@ export default class MealPlanFormScreen extends Component {
   async onGetRecipes() {
     try {
       const result = await recipesRequest();
+      console.log(result);
+      const free = {
+        active: 1,
+        id: "dialibre",
+        ingredients: [],
+        name: "Libre",
+        preparation: "Libre",
+      };
+       result.push(free);
       this.setState({ recipes: result });
     } catch (error) {
       console.log(error);
@@ -306,7 +315,7 @@ export default class MealPlanFormScreen extends Component {
                       onSelectedItemsChange={this.onSelectedItemsMondayChange}
                       selectedItems={selectedItemsMonday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"
@@ -354,7 +363,7 @@ export default class MealPlanFormScreen extends Component {
                       onSelectedItemsChange={this.onSelectedItemsTuesdayChange}
                       selectedItems={selectedItemsTuesday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"
@@ -404,7 +413,7 @@ export default class MealPlanFormScreen extends Component {
                       }
                       selectedItems={selectedItemsWednesday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"
@@ -452,7 +461,7 @@ export default class MealPlanFormScreen extends Component {
                       onSelectedItemsChange={this.onSelectedItemsThursdayChange}
                       selectedItems={selectedItemsThursday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"
@@ -500,7 +509,7 @@ export default class MealPlanFormScreen extends Component {
                       onSelectedItemsChange={this.onSelectedItemsFridayChange}
                       selectedItems={selectedItemsFriday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"
@@ -548,7 +557,7 @@ export default class MealPlanFormScreen extends Component {
                       onSelectedItemsChange={this.onSelectedItemsSaturdayChange}
                       selectedItems={selectedItemsSaturday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"
@@ -596,7 +605,7 @@ export default class MealPlanFormScreen extends Component {
                       onSelectedItemsChange={this.onSelectedItemsSundayChange}
                       selectedItems={selectedItemsSunday}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona las recetas"
-                      searchInputPlaceholderText="Buscar ingredientes..."
+                      searchInputPlaceholderText="Buscar recetas..."
                       altFontFamily="Lato_400Regular"
                       tagRemoveIconColor="#CCC"
                       tagBorderColor="#CCC"

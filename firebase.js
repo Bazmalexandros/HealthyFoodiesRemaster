@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { API_KEY, API_ID} from "@env";
+import { API_KEY, API_ID } from "@env";
 
 /** Configuración para las crendeciales de firebase */
 const firebaseConfig = {

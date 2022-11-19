@@ -16,7 +16,7 @@ import { deleteIngredient } from "../../../../services/ingredients/ingredients.s
 
 const IngredientInfoCard = ({ ingredient }) => {
   const navigation = useNavigation();
-  const { id, name, calories, fat } = ingredient;
+  const { id, name, calories, fat, quantity } = ingredient;
 
   const createTwoButtonAlert = () =>
     Alert.alert("¿Estás seguro?", `Se eliminará el registro ${name}`, [
@@ -85,7 +85,9 @@ const IngredientInfoCard = ({ ingredient }) => {
         </TitleSection>
         <Spacer position="top" size="medium" />
         <Description numberOfLines={3} ellipsizeMode="tail">
-          {`Calorías: ${calories}cal   Fat: ${fat}\nId: ${id}`}
+          {`Calorías: ${calories}cal  Fat: ${fat} ${
+            typeof quantity === "undefined" ? "" : `Cantidad: ${quantity}`
+          }\nId: ${id}`}
         </Description>
       </Info>
     </IngredientCard>
