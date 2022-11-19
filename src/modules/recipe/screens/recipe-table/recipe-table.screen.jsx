@@ -69,20 +69,22 @@ const RecipeTable = ({ navigation }) => {
         contentContainerStyle={{ paddingBottom: 30 }}
         data={recipes}
         numColumns={1}
-        renderItem={({ item }) => (
-          <ItemTouchCard
-            onPress={() =>
-              navigation.navigate("Receta-Detalles", {
-                recipe: item,
-                refresh: true,
-              })
-            }
-          >
-            <FadeInView>
-              <RecipeInfoCard recipe={item} />
-            </FadeInView>
-          </ItemTouchCard>
-        )}
+        renderItem={({ item }) =>
+          item.id !== "dialibre" && (
+            <ItemTouchCard
+              onPress={() =>
+                navigation.navigate("Receta-Detalles", {
+                  recipe: item,
+                  refresh: true,
+                })
+              }
+            >
+              <FadeInView>
+                <RecipeInfoCard recipe={item} />
+              </FadeInView>
+            </ItemTouchCard>
+          )
+        }
         keyExtractor={(item) => item.id}
       />
     </SafeArea>

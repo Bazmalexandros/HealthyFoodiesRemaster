@@ -82,14 +82,6 @@ export default class MealPlanFormScreen extends Component {
     try {
       const result = await recipesRequest();
       console.log(result);
-      const free = {
-        active: 1,
-        id: "dialibre",
-        ingredients: [],
-        name: "Libre",
-        preparation: "Libre",
-      };
-       result.push(free);
       this.setState({ recipes: result });
     } catch (error) {
       console.log(error);
