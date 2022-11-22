@@ -72,8 +72,10 @@ const PatientMealFormScreen = () => {
   }, []);
 
   const clearState = () => {
-    setUserId("");
-    setMealId("");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Asignar Plan", params: { refresh: true } }],
+    });
   };
 
   /**
@@ -180,7 +182,7 @@ const PatientMealFormScreen = () => {
 
                 <Spacer size="medium">
                   <AuthLabelContainer>
-                    <TouchableOpacity onPress={() => clearState}>
+                    <TouchableOpacity onPress={clearState}>
                       <AuthLabel variant="bold">Limpiar</AuthLabel>
                     </TouchableOpacity>
                   </AuthLabelContainer>
