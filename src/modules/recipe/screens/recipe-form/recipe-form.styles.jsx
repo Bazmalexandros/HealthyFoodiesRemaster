@@ -47,3 +47,9 @@ export const Title = styled(Text)`
   text-align: center;
   margin-bottom: ${(props) => props.theme.space[3]};
 `;
+
+export const Label = styled(Text)`
+  padding: ${(props) => props.theme.space[1]} 0px;
+  color: black;
+  font-weight: bold;
+`;

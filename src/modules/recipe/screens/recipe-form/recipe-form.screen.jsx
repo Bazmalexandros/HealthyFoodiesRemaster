@@ -18,11 +18,13 @@ import {
   AuthLabelContainer,
   AuthLabel,
   Title,
-  Select
+  Select,
+  Label,
 } from "./recipe-form.styles";
 
 import { colors } from "../../../../infrastructure/theme/colors";
 
+import { getIngredientsById } from "../../../../services/ingredients/ingredients.service";
 import {
   createRecipe,
   updateRecipe,
@@ -43,10 +45,31 @@ export default class RecipeFormScreen extends Component {
   constructor(props) {
     super(props);
     this.state = initState;
+    this.totalCalories = 0;
+    this.totalFat = 0;
+  }
+
+  //create a function that iterates alal selectedItems and add the calories and fat
+  async calculateTotalCalories(selectedItems) {
+    let totalCalories = 0;
+    let totalFat = 0;
+
+    const ingredients = await getIngredientsById(selectedItems);
+
+    ingredients.forEach((item) => {
+      totalCalories += parseInt(item.calories);
+      totalFat += parseInt(item.fat);
+    });
+
+    this.totalCalories = totalCalories;
+    this.totalFat = totalFat;
   }
 
   onSelectedItemsChange = (selectedItems) => {
     this.setState({ selectedItems });
+    this.calculateTotalCalories(selectedItems).then(() => {
+      this.forceUpdate();
+    });
   };
 
   async onGetIngredients() {
@@ -72,6 +95,9 @@ export default class RecipeFormScreen extends Component {
       this.setState({ name: recipe.name });
       this.setState({ preparation: recipe.preparation });
       this.setState({ id: recipe.id });
+      this.calculateTotalCalories(recipe.ingredients).then(() => {
+        this.forceUpdate();
+      });
     }
   }
 
@@ -85,6 +111,8 @@ export default class RecipeFormScreen extends Component {
     this.setState({ name: "" });
     this.setState({ preparation: "" });
     this.onGetIngredients();
+    this.totalCalories = 0;
+    this.totalFat = 0;
   }
 
   /**
@@ -199,13 +227,13 @@ export default class RecipeFormScreen extends Component {
                 <View style={{ flex: 1 }}>
                   <Card elevation={2} mode="elevated">
                     <Select
-      
                       items={ingredients}
                       uniqueKey="id"
                       ref={(component) => {
                         this.multiSelect = component;
                       }}
                       onSelectedItemsChange={this.onSelectedItemsChange}
+                      on
                       selectedItems={selectedItems}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona los ingredientes"
                       searchInputPlaceholderText="Buscar ingredientes..."
@@ -223,7 +251,6 @@ export default class RecipeFormScreen extends Component {
                         borderColor: "#fff",
                       }}
                       styleIndicator={{
-                        
                         paddingVertical: 16,
                         color: "#fff",
                       }}
@@ -232,14 +259,11 @@ export default class RecipeFormScreen extends Component {
                       }}
                       tagContainerStyle={{
                         width: "98%",
-        
                       }}
                       submitButtonColor="#CCC"
                       submitButtonText="Agregar"
                     />
                   </Card>
-
-              
                 </View>
               </View>
 
@@ -255,6 +279,10 @@ export default class RecipeFormScreen extends Component {
               />
 
               <Spacer size="large" />
+
+              <Label variant="caption">{`El total de caloría: ${this.totalCalories} y el total de grasa Fat son ${this.totalFat}`}</Label>
+              <Spacer size="large" />
+
               {!this.state.isLoading ? (
                 <>
                   <Spacer size="large">
