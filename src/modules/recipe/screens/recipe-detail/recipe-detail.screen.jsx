@@ -16,14 +16,15 @@ const RecipeDetailScreen = ({ route }) => {
     let totalCalories = 0;
     let totalFat = 0;
     const { ingredients } = recipe;
-
     ingredients.forEach((item) => {
-      totalCalories += parseInt(item.calories);
-      totalFat += parseInt(item.fat);
+      totalCalories += parseFloat(item.calories);
+      totalFat += parseFloat(item.fat);
     });
 
-    setCalories(parseInt(totalCalories));
-    setFat(parseInt(totalFat));
+
+
+    setCalories(parseFloat(totalCalories));
+    setFat(parseFloat(totalFat));
   };
 
   const getMealDetail = async () => {
@@ -31,7 +32,6 @@ const RecipeDetailScreen = ({ route }) => {
     const response = await getRecipeById(recipe.id);
     if (response) {
       setRecipe(response);
-      await calculateTotalCalories();
     }
     setIsLoading(false);
   };
@@ -39,6 +39,10 @@ const RecipeDetailScreen = ({ route }) => {
   useEffect(() => {
     getMealDetail();
   }, []);
+
+  useEffect(() => {
+    calculateTotalCalories();
+  }, [recipe]);
 
   if (isLoading) {
     return (
@@ -77,7 +81,7 @@ const RecipeDetailScreen = ({ route }) => {
                     title={ingredient.name}
                     description={`Calorías: ${ingredient.calories}cal Fat: ${
                       ingredient.fat
-                    }\n ${
+                    }\n${
                       typeof ingredient.quantity === "undefined"
                         ? ""
                         : `Cantidad: ${ingredient.quantity}`
