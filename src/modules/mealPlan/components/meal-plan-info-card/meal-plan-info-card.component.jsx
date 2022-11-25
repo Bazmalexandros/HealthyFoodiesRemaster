@@ -37,7 +37,7 @@ const MealPlanInfoCard = ({ meal }) => {
             });
 
             navigation.navigate("mealPlan", {
-              screen: "Agregar/Editar",
+              screen: "Comidas",
             });
 
             navigation.reset({

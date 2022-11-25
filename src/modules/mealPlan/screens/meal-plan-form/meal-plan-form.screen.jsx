@@ -81,7 +81,6 @@ export default class MealPlanFormScreen extends Component {
   async onGetRecipes() {
     try {
       const result = await recipesRequest();
-      console.log(result);
       this.setState({ recipes: result });
     } catch (error) {
       console.log(error);

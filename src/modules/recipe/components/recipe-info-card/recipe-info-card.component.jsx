@@ -38,7 +38,7 @@ const RecipeInfoCard = ({ recipe }) => {
             });
 
             navigation.navigate("recipe", {
-              screen: "Agregar/Editar",
+              screen: "Recetas",
             });
 
             navigation.reset({

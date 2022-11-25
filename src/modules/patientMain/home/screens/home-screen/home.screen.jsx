@@ -47,7 +47,6 @@ const HomeScreen = ({ navigation }) => {
         const d = new Date(Date.now());
         const day = d.getDay();
         setDayValue(day);
-        console.log(mealPlanDetail);
         switch (day) {
           case 1:
             setMealPlanGlobal(mealPlanDetail.monday);

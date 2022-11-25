@@ -6,6 +6,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   View,
+  Alert,
 } from "react-native";
 import { ActivityIndicator, Card } from "react-native-paper";
 import Toast from "react-native-toast-message";
@@ -20,6 +21,8 @@ import {
   Title,
   Select,
   Label,
+  IngredientesView,
+  Input,
 } from "./recipe-form.styles";
 
 import { colors } from "../../../../infrastructure/theme/colors";
@@ -47,6 +50,7 @@ export default class RecipeFormScreen extends Component {
     this.state = initState;
     this.totalCalories = 0;
     this.totalFat = 0;
+    this.ingredientsList = {};
   }
 
   //create a function that iterates alal selectedItems and add the calories and fat
@@ -81,11 +85,18 @@ export default class RecipeFormScreen extends Component {
     }
   }
 
+  getAmounts(ingredientsList) {
+    ingredientsList.forEach((ingredient) => {
+      this.ingredientsList[ingredient.id] = ingredient.amount;
+    });
+  }
+
   componentDidMount() {
     this.onGetIngredients();
     const { route } = this.props;
 
     if (route.params != undefined) {
+      this.onGetIngredients();
       const { recipe } = route.params;
       this.setState(recipe);
       this.setState({ isLoading: false });
@@ -98,6 +109,8 @@ export default class RecipeFormScreen extends Component {
       this.calculateTotalCalories(recipe.ingredients).then(() => {
         this.forceUpdate();
       });
+      this.getAmounts(recipe.ingredientsList);
+      this.forceUpdate();
     }
   }
 
@@ -115,6 +128,18 @@ export default class RecipeFormScreen extends Component {
     this.totalFat = 0;
   }
 
+  getNameIngredient(id) {
+    if (this.state.ingredients.length == 0) {
+      this.onGetIngredients().then(() => {
+        this.forceUpdate();
+      });
+    }
+    const { ingredients } = this.state;
+    const ingredient = ingredients.find((ing) => ing.id == id);
+    
+    return ingredient == undefined ? "" : ingredient.name;
+  }
+
   /**
    * Función para asignar los valores de los inputs al estado
    * @param {string} key Nombre del input
@@ -124,12 +149,40 @@ export default class RecipeFormScreen extends Component {
     this.setState({ ...this.state, [key]: value });
   };
 
+  handleChangeTextIngredients = (key) => (value) => {
+    this.ingredientsList[key] = value;
+    this.forceUpdate();
+  };
+
+  validateIngredientsList() {
+    const ingredientsList = this.ingredientsList;
+    for (const key in ingredientsList) {
+      if (!this.state.selectedItems.includes(key)) {
+        delete ingredientsList[key];
+      }
+    }
+  }
+
+  getAllIngredients() {
+    const ingredientsList = this.ingredientsList;
+    const ingredients = [];
+    for (const key in ingredientsList) {
+      const ingredient = this.state.ingredients.find((ing) => ing.id == key);
+      ingredient.amount = ingredientsList[key];
+      ingredients.push(ingredient);
+    }
+    return ingredients;
+  }
+
   async onPressRecipe() {
+    this.validateIngredientsList();
+
     const data = {};
     data.id = this.state.id;
     data.name = this.state.name;
     data.ingredients = this.state.selectedItems;
     data.preparation = this.state.preparation;
+    data.ingredientsList = this.getAllIngredients();
     data.active = 1;
 
     const toastParams = {
@@ -233,7 +286,6 @@ export default class RecipeFormScreen extends Component {
                         this.multiSelect = component;
                       }}
                       onSelectedItemsChange={this.onSelectedItemsChange}
-                      on
                       selectedItems={selectedItems}
                       selectText="&nbsp;&nbsp;&nbsp;&nbsp;Selecciona los ingredientes"
                       searchInputPlaceholderText="Buscar ingredientes..."
@@ -245,6 +297,8 @@ export default class RecipeFormScreen extends Component {
                       selectedItemIconColor="#CCC"
                       itemTextColor="#000"
                       displayKey="name"
+                      hideTags={false}
+                      onChangeInput={this.setAmount}
                       searchInputStyle={{ color: "#CCC" }}
                       styleDropdownMenuSubsection={{
                         borderRadius: 5,
@@ -258,7 +312,8 @@ export default class RecipeFormScreen extends Component {
                         flex: 1,
                       }}
                       tagContainerStyle={{
-                        width: "98%",
+                        width: "0%",
+                        display: "none",
                       }}
                       submitButtonColor="#CCC"
                       submitButtonText="Agregar"
@@ -266,6 +321,21 @@ export default class RecipeFormScreen extends Component {
                   </Card>
                 </View>
               </View>
+
+              {this.state.selectedItems.map((item) => (
+                <Spacer size="large" key={item}>
+                  <IngredientesView>
+                    <Label variant="caption">
+                      {this.getNameIngredient(item)}
+                    </Label>
+                    <Input
+                      value={this.ingredientsList[item]}
+                      placeholder={"Cantidad en porción"}
+                      onChangeText={this.handleChangeTextIngredients(item)}
+                    />
+                  </IngredientesView>
+                </Spacer>
+              ))}
 
               <Spacer size="large" />
 
@@ -280,7 +350,7 @@ export default class RecipeFormScreen extends Component {
 
               <Spacer size="large" />
 
-              <Label variant="caption">{`El total de caloría: ${this.totalCalories} y el total de grasa Fat son ${this.totalFat}`}</Label>
+              <Label variant="caption">{`Total de caloría: ${this.totalCalories} - Total de grasa Fat: ${this.totalFat}`}</Label>
               <Spacer size="large" />
 
               {!this.state.isLoading ? (

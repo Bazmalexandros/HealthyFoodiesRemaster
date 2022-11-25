@@ -52,7 +52,7 @@ const RecipeDetailScreen = ({ route }) => {
     );
   }
 
-  const { id, name, preparation, ingredients } = recipe;
+  const { id, name, preparation, ingredients, ingredientsList } = recipe;
   return (
     <SafeArea>
       <ScrollView>
@@ -73,7 +73,7 @@ const RecipeDetailScreen = ({ route }) => {
         >
           {id === "dialibre"
             ? null
-            : ingredients.map((ingredient, index) => {
+            : ingredientsList.map((ingredient, index) => {
                 if (JSON.stringify(ingredient) === "{}") return;
                 return (
                   <List.Item
@@ -84,7 +84,11 @@ const RecipeDetailScreen = ({ route }) => {
                     }\n${
                       typeof ingredient.quantity === "undefined"
                         ? ""
-                        : `Cantidad: ${ingredient.quantity}`
+                        : `Cantidad: ${ingredient.quantity} - ${
+                            typeof ingredient.amount === "undefined"
+                              ? ""
+                              : `Porción: ${ingredient.amount}`
+                          }`
                     }`}
                     titleStyle={{ color: colors.brand.hf }}
                     left={(props) => (
